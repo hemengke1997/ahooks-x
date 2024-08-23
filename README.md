@@ -1,13 +1,13 @@
-# xhooks
+# x-ahooks
 
 ## 介绍
 
-xhooks 是对 [ahooks](https://ahooks.js.org/zh-CN) 的增强补充
+x-ahooks 是对 [ahooks](https://ahooks.js.org/zh-CN) 的增强补充
 
 ## 安装
 
 ```bash
-npm i ahooks xhooks
+npm i ahooks x-ahooks
 ```
 
 ## 功能

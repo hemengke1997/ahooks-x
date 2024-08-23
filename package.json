@@ -1,17 +1,17 @@
 {
-  "name": "xhooks",
+  "name": "x-ahooks",
   "version": "1.0.0",
-  "description": "xhooks is supplement for ahooks",
+  "description": "x-ahooks is supplement for ahooks",
   "type": "module",
   "keywords": [
     "ahooks",
     "react hook",
-    "xhooks"
+    "x-ahooks"
   ],
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hemengke1997/xhooks.git"
+    "url": "git+https://github.com/hemengke1997/x-ahooks.git"
   },
   "author": "hemengke <https://github.com/hemengke1997>",
   "files": [
