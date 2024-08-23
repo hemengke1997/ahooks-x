@@ -6,6 +6,7 @@ const tsupConfig: Options = {
   bundle: true,
   platform: 'browser',
   splitting: false,
+  dts: true,
 }
 
 const esm: Options = {
