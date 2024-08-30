@@ -27,6 +27,13 @@
       "import": "./dist/es/index.js",
       "default": "./dist/lib/index.cjs",
       "node": "./dist/lib/index.cjs"
+    },
+    "./use-url-state": {
+      "types": "./dist/es/use-url-state/index.d.ts",
+      "require": "./dist/lib/use-url-state/index.cjs",
+      "import": "./dist/es/use-url-state/index.js",
+      "default": "./dist/lib/use-url-state/index.cjs",
+      "node": "./dist/lib/use-url-state/index.cjs"
     }
   },
   "sideEffects": false,
@@ -42,28 +49,38 @@
   },
   "peerDependencies": {
     "ahooks": ">=3.0.0",
+    "query-string": ">=7.0.0",
     "react": ">=17.0.2",
-    "react-dom": ">=17.0.2"
+    "react-dom": ">=17.0.2",
+    "react-router-dom": ">=6.0.0"
+  },
+  "peerDependenciesMeta": {
+    "react-router-dom": {
+      "optional": true
+    },
+    "query-string": {
+      "optional": true
+    }
   },
   "dependencies": {
-    "type-fest": "^4.25.0",
+    "type-fest": "^4.26.0",
     "use-global-style": "^1.0.1"
   },
   "devDependencies": {
-    "@commitlint/cli": "^19.4.0",
-    "@minko-fe/commitlint-config": "^2.1.0",
-    "@minko-fe/eslint-config": "^3.3.3",
-    "@minko-fe/prettier-config": "^2.2.2",
-    "@minko-fe/tsconfig": "^2.1.0",
+    "@commitlint/cli": "^19.4.1",
+    "@minko-fe/commitlint-config": "^2.1.2",
+    "@minko-fe/eslint-config": "^4.0.0",
+    "@minko-fe/prettier-config": "^2.2.3",
+    "@minko-fe/tsconfig": "^2.1.1",
     "@types/react": "^18.3.4",
     "@types/react-dom": "^18.3.0",
     "bumpp": "^9.5.2",
     "conventional-changelog-cli": "^5.0.0",
     "cross-env": "^7.0.3",
-    "eslint": "^9.9.0",
+    "eslint": "^9.9.1",
     "npm-run-all": "^4.1.5",
     "simple-git-hooks": "^2.11.1",
-    "taze": "^0.16.6",
+    "taze": "^0.16.7",
     "tsup": "^8.2.4",
     "tsup-plugin-bundleless": "^0.4.0",
     "typescript": "^5.5.4"
