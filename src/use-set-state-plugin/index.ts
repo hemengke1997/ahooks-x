@@ -1,5 +1,5 @@
-import { useLatest, useMemoizedFn } from 'ahooks'
 import { useState } from 'react'
+import { useLatest, useMemoizedFn } from 'ahooks'
 import { createUseStorageState, type Options as StorageOptions } from '../create-use-storage-state'
 import { isBrowser, isFunction } from '../utils/is'
 

@@ -17,7 +17,7 @@ npm i ahooks ahooks-x
 - [useGlobalStyle](./src/use-global-style/README.md)
 - [useImperative](./src/use-imperative/README.md)
 - [useLocalStorageSetState](./src/use-local-storage-set-state/README.md)
-- [useLockBodyScroll](./src/use-lock-body-scroll/README.md)
+- [useLockScroll](./src/use-lock-scroll/README.md)
 - [useSessionStorageSetState](./src/use-session-storage-set-state/README.md)
 - [useSetStatePlugin](./src/use-set-state-plugin/README.md)
 - [useSteps](./src/use-steps/README.md)

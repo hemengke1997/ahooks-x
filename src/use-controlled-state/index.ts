@@ -1,5 +1,5 @@
-import { useMemoizedFn, usePrevious, useUpdate } from 'ahooks'
 import { useMemo, useRef } from 'react'
+import { useMemoizedFn, usePrevious, useUpdate } from 'ahooks'
 import { isFunction } from '../utils/is'
 
 function useControlledState<T>(option: {
