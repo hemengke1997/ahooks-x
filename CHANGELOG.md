@@ -1,3 +1,12 @@
+## [1.2.1](https://github.com/hemengke1997/ahooks-x/compare/v1.2.0...v1.2.1) (2024-09-27)
+
+
+### Features
+
+* deprecate legacy react version ([340f0fb](https://github.com/hemengke1997/ahooks-x/commit/340f0fb83da452931b5534842dd58a2dc6062876))
+
+
+
 # [1.2.0](https://github.com/hemengke1997/ahooks-x/compare/v1.1.0...v1.2.0) (2024-09-23)
 
 
