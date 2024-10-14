@@ -1,3 +1,7 @@
+## [1.2.2](https://github.com/hemengke1997/ahooks-x/compare/v1.2.1...v1.2.2) (2024-10-14)
+
+
+
 ## [1.2.1](https://github.com/hemengke1997/ahooks-x/compare/v1.2.0...v1.2.1) (2024-09-27)
 
 
