@@ -7,7 +7,7 @@
 ## 使用方法
 
 ```tsx
-import { useControlledState } from '@minko-fe/react-hook'
+import { useControlledState } from 'ahooks-x'
 
 type Props<T> = {
   value: T

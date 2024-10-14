@@ -6,8 +6,8 @@
 
 ## 使用方法
 
-```tsx
-import { useSteps } from '@minko-fe/react-hook'
+```ts
+import { useSteps } from 'ahooks-x'
 
 const [currentStep, next] = useSteps({
   steps: ['step1', 'step2', 'step3'],

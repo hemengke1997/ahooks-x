@@ -12,7 +12,6 @@ const esm: Options = {
   format: ['esm'],
   outDir: 'dist/es',
   splitting: true,
-  outExtension: () => ({ js: '.js' }),
   ...bundleless(),
 }
 
@@ -21,7 +20,6 @@ const cjs: Options = {
   format: ['cjs'],
   outDir: 'dist/lib',
   splitting: false,
-  outExtension: () => ({ js: '.cjs' }),
   ...bundleless(),
 }
 

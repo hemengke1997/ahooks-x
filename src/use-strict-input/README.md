@@ -7,13 +7,15 @@
 ## 使用方法
 
 ```tsx
-import { useStrictInput } from '@minko-fe/react-hook'
+import { useStrictInput } from 'ahooks-x'
 
-const [value, setValue] = useState()
-const events = useStrictInput({
-  value,
-  onChange: setValue,
-})
+function App() {
+  const [value, setValue] = useState()
+  const events = useStrictInput({
+    value,
+    onChange: setValue,
+  })
 
-return <input {...events} value={value} />
+  return <input {...events} value={value} />
+}
 ```

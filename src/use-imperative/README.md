@@ -7,23 +7,22 @@
 ## 使用方法
 
 ```tsx
-import { useImperative } from '@minko-fe/react-hook'
+import { useImperative } from 'ahooks-x'
 import { Modal, type ModalProps } from 'antd'
 
-function MyModal(props: ModalProps) {
+function MyModal(props: ModalProps & {
+  yourProp: string
+}) {
   return <Modal {...props}></Modal>
 }
 
 function App() {
-  const { show } = useImperative(MyModal, {
-    keys: {
-      open: 'open'
-    }
-  })
+  const { open } = useImperative(MyModal)
 
   return <button onClick={() => {
-    show({
+    open({
       title: '标题',
+      yourProp: '你的属性'
     })
   }}>打开modal</button>
 }

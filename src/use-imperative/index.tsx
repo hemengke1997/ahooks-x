@@ -1,4 +1,4 @@
-import { createElement, type FunctionComponent, useRef } from 'react'
+import { createElement, Fragment, type FunctionComponent, type ReactElement } from 'react'
 import { useMemoizedFn } from 'ahooks'
 import { isBrowser } from '../utils/is'
 import { render as reactRender } from './render'
@@ -6,16 +6,13 @@ import { render as reactRender } from './render'
 type ConfigUpdate<T> = T | ((prev: T) => T)
 
 type Config<T> = {
-  /**
-   * @description 声明式组件
-   */
-  RC: FunctionComponent<T>
-  keys: {
+  keys?: {
     /**
      * 显隐 key
      */
-    open: keyof T
+    open?: keyof T
   }
+  render?: (children: ReactElement) => ReactElement
 }
 
 /**
@@ -23,21 +20,12 @@ type Config<T> = {
  * 如 antd 的 Modal
  * 如 vant 的 Dialog
  */
-function useImperative<T extends Record<string, any> = Record<string, any>>(config: Config<T>) {
-  if (!isBrowser()) {
-    return {
-      close: () => {},
-      update: () => {},
-      show: () => {},
-    }
-  }
-
-  const {
-    RC,
-    keys: { open: openKey },
-  } = config
-
-  const container = useRef(document.createDocumentFragment()).current
+function useImperative<T extends Record<string, any> = Record<string, any>>(
+  FC: FunctionComponent<T>,
+  config: Config<T>,
+) {
+  const { keys, render: _render } = config || {}
+  const { open: openKey = 'open' } = keys || {}
 
   let currentProps = { [openKey]: true } as T
   let timeoutId: ReturnType<typeof setTimeout>
@@ -46,16 +34,14 @@ function useImperative<T extends Record<string, any> = Record<string, any>>(conf
     clearTimeout(timeoutId)
 
     timeoutId = setTimeout(() => {
-      reactRender(
-        createElement(RC, {
-          ...props,
-        } as T),
-        container,
-      )
+      const element = createElement(FC, {
+        ...props,
+      } as T)
+      reactRender(<Fragment>{_render ? _render(element) : element}</Fragment>, document.createDocumentFragment())
     })
   })
 
-  const show = useMemoizedFn((props: T) => {
+  const open = useMemoizedFn((props: T) => {
     currentProps = {
       ...props,
       [openKey]: true,
@@ -83,10 +69,18 @@ function useImperative<T extends Record<string, any> = Record<string, any>>(conf
     render(currentProps)
   })
 
+  if (!isBrowser()) {
+    return {
+      close: () => {},
+      update: () => {},
+      open: () => {},
+    }
+  }
+
   return {
     close,
     update,
-    show,
+    open,
   }
 }
 

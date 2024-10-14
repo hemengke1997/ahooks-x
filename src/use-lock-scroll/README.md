@@ -2,7 +2,8 @@
 
 ## 使用
 
-```tsx
+```ts
+import { useState } from 'react'
 import { useLockScroll } from 'ahooks-x'
 
 const [lock, setLock] = useState(false)
