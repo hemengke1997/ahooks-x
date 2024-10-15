@@ -1,3 +1,12 @@
+## [1.3.1](https://github.com/hemengke1997/ahooks-x/compare/v1.3.0...v1.3.1) (2024-10-15)
+
+
+### Bug Fixes
+
+* typo ([15eb26d](https://github.com/hemengke1997/ahooks-x/commit/15eb26d04da6cfbfc0621c29af6781642bac680a))
+
+
+
 # [1.3.0](https://github.com/hemengke1997/ahooks-x/compare/v1.2.3...v1.3.0) (2024-10-15)
 
 
