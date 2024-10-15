@@ -1,4 +1,6 @@
-import { createElement, Fragment, type FunctionComponent, type ReactElement } from 'react'
+/* eslint-disable react-hooks/rules-of-hooks */
+
+import { createElement, Fragment, type FunctionComponent, type ReactElement, useRef } from 'react'
 import { useMemoizedFn } from 'ahooks'
 import { isBrowser } from '../utils/is'
 import { render as reactRender } from './render'
@@ -11,6 +13,10 @@ type Config<T> = {
      * 显隐 key
      */
     open?: keyof T
+    /**
+     * 关闭弹窗key
+     */
+    onClose?: keyof T
   }
   render?: (children: ReactElement) => ReactElement
 }
@@ -22,13 +28,22 @@ type Config<T> = {
  */
 function useImperative<T extends Record<string, any> = Record<string, any>>(
   FC: FunctionComponent<T>,
-  config: Config<T>,
+  config?: Config<T>,
 ) {
+  if (!isBrowser()) {
+    return {
+      close: () => {},
+      update: () => {},
+      open: () => {},
+    }
+  }
+
   const { keys, render: _render } = config || {}
-  const { open: openKey = 'open' } = keys || {}
+  const { open: openKey = 'open', onClose: onCloseKey = 'onCancel' } = keys || {}
 
   let currentProps = { [openKey]: true } as T
   let timeoutId: ReturnType<typeof setTimeout>
+  const container = useRef(document.createDocumentFragment())
 
   const render = useMemoizedFn((props: T) => {
     clearTimeout(timeoutId)
@@ -37,7 +52,7 @@ function useImperative<T extends Record<string, any> = Record<string, any>>(
       const element = createElement(FC, {
         ...props,
       } as T)
-      reactRender(<Fragment>{_render ? _render(element) : element}</Fragment>, document.createDocumentFragment())
+      reactRender(<Fragment>{_render ? _render(element) : element}</Fragment>, container.current)
     })
   })
 
@@ -45,6 +60,7 @@ function useImperative<T extends Record<string, any> = Record<string, any>>(
     currentProps = {
       ...props,
       [openKey]: true,
+      [onCloseKey]: close,
     }
     render(currentProps)
   })
@@ -68,14 +84,6 @@ function useImperative<T extends Record<string, any> = Record<string, any>>(
     }
     render(currentProps)
   })
-
-  if (!isBrowser()) {
-    return {
-      close: () => {},
-      update: () => {},
-      open: () => {},
-    }
-  }
 
   return {
     close,
