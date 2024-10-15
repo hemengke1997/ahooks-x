@@ -1,3 +1,12 @@
+## [1.2.3](https://github.com/hemengke1997/ahooks-x/compare/v1.2.2...v1.2.3) (2024-10-15)
+
+
+### Bug Fixes
+
+* use-imperative container ([bb841b6](https://github.com/hemengke1997/ahooks-x/commit/bb841b66d5ea60726aeea6d82d4a4892a10cd303))
+
+
+
 ## [1.2.2](https://github.com/hemengke1997/ahooks-x/compare/v1.2.1...v1.2.2) (2024-10-14)
 
 
