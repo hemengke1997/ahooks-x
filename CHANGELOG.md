@@ -1,3 +1,12 @@
+# [1.3.0](https://github.com/hemengke1997/ahooks-x/compare/v1.2.3...v1.3.0) (2024-10-15)
+
+
+### Features
+
+* add `use-trace-state` ([a825f91](https://github.com/hemengke1997/ahooks-x/commit/a825f91ca62254725bd8f22e88a8b692bf439f59))
+
+
+
 ## [1.2.3](https://github.com/hemengke1997/ahooks-x/compare/v1.2.2...v1.2.3) (2024-10-15)
 
 
