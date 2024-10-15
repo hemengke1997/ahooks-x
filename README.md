@@ -23,4 +23,4 @@ npm i ahooks ahooks-x
 - [useSteps](./src/use-steps/README.md)
 - [useStrictInput](./src/use-strict-input/README.md)
 - [useUrlState](./src/use-url-state/README.md)
-- [useTraceState](./src/use-trace-state/README.md)
+- [useTrackState](./src/use-trace-state/README.md)

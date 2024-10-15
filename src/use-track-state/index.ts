@@ -3,66 +3,66 @@ import { useMemoizedFn, useUpdateEffect } from 'ahooks'
 import { isFunction } from '../utils/is'
 
 export const enum Trigger {
-  trace = 'trace',
+  track = 'track',
   set = 'set',
 }
 
 /**
  * 追踪依赖状态变化，当依赖变化后，重新获取状态
- * @param tracedState 被追踪的状态
+ * @param trackdState 被追踪的状态
  * @param options
  * deps: 依赖
  * onChangeBySet: 通过 setState 改变状态时的回调
- * onChangeByTrace: 通过追踪状态改变时的回调
+ * onChangeByTrack: 通过追踪状态改变时的回调
  *
  * @returns [state, setState, trigger]
  */
-export function useTraceState<S>(
-  _traceState: S | (() => S),
+export function useTrackState<S>(
+  trackState: S | (() => S),
   options?: {
     deps?: DependencyList
     defaultValue?: S | (() => S)
     onChangeBySet?: (state: S) => void
-    onChangeByTrace?: (state: S) => void
+    onChangeByTrack?: (state: S) => void
   },
 ) {
-  const { deps, defaultValue, onChangeBySet, onChangeByTrace } = options || {}
+  const { deps, defaultValue, onChangeBySet, onChangeByTrack } = options || {}
 
-  const [traceState, setTraceState] = useState<{
+  const [trackedState, setTrackState] = useState<{
     state: S
-    trigger: 'trace' | 'set'
+    trigger: 'track' | 'set'
   }>(() => {
-    const value = defaultValue || _traceState
+    const value = defaultValue || trackState
     return {
       state: isFunction(value) ? value() : value,
-      trigger: 'trace',
+      trigger: 'track',
     }
   })
 
-  const { state, trigger } = traceState
+  const { state, trigger } = trackedState
 
   useUpdateEffect(() => {
-    setTraceState(
-      isFunction(_traceState)
+    setTrackState(
+      isFunction(trackState)
         ? () => ({
-            state: _traceState(),
-            trigger: Trigger.trace,
+            state: trackState(),
+            trigger: Trigger.track,
           })
         : {
-            state: _traceState,
-            trigger: Trigger.trace,
+            state: trackState,
+            trigger: Trigger.track,
           },
     )
-  }, [...(deps || []), ...(isFunction(_traceState) ? [] : [_traceState])])
+  }, [...(deps || []), ...(isFunction(trackState) ? [] : [trackState])])
 
   const setState: Dispatch<SetStateAction<S>> = useMemoizedFn((newState) => {
     if (isFunction(newState)) {
-      setTraceState((t) => ({
+      setTrackState((t) => ({
         state: newState(t.state),
         trigger: Trigger.set,
       }))
     } else {
-      setTraceState({
+      setTrackState({
         state: newState,
         trigger: Trigger.set,
       })
@@ -71,8 +71,8 @@ export function useTraceState<S>(
 
   useUpdateEffect(() => {
     switch (trigger) {
-      case Trigger.trace: {
-        onChangeByTrace?.(state)
+      case Trigger.track: {
+        onChangeByTrack?.(state)
         return
       }
       case Trigger.set: {
