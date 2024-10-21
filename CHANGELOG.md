@@ -1,3 +1,12 @@
+## [1.3.2](https://github.com/hemengke1997/ahooks-x/compare/v1.3.1...v1.3.2) (2024-10-21)
+
+
+### Bug Fixes
+
+* use-imperative ([efaf7e2](https://github.com/hemengke1997/ahooks-x/commit/efaf7e21d5dcd51101ba941a026eecf98b59bae0))
+
+
+
 ## [1.3.1](https://github.com/hemengke1997/ahooks-x/compare/v1.3.0...v1.3.1) (2024-10-15)
 
 
