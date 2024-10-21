@@ -41,7 +41,7 @@ function useImperative<T extends Record<string, any> = Record<string, any>>(
   const { keys, render: _render } = config || {}
   const { open: openKey = 'open', onClose: onCloseKey = 'onCancel' } = keys || {}
 
-  let currentProps = { [openKey]: true } as T
+  const currentProps = useRef({ [openKey]: true } as T)
   let timeoutId: ReturnType<typeof setTimeout>
   const container = useRef(document.createDocumentFragment())
 
@@ -52,37 +52,39 @@ function useImperative<T extends Record<string, any> = Record<string, any>>(
       const element = createElement(FC, {
         ...props,
       } as T)
+
       reactRender(<Fragment>{_render ? _render(element) : element}</Fragment>, container.current)
     })
   })
 
   const open = useMemoizedFn((props: T) => {
-    currentProps = {
+    currentProps.current = {
       ...props,
       [openKey]: true,
       [onCloseKey]: close,
     }
-    render(currentProps)
+    render(currentProps.current)
   })
 
   const close = useMemoizedFn(() => {
     const props = {
-      ...currentProps,
+      ...currentProps.current,
       [openKey]: false,
     }
+
     render(props)
   })
 
   const update = useMemoizedFn((configUpdate: ConfigUpdate<T>) => {
     if (typeof configUpdate === 'function') {
-      currentProps = configUpdate(currentProps)
+      currentProps.current = configUpdate(currentProps.current)
     } else {
-      currentProps = {
-        ...currentProps,
+      currentProps.current = {
+        ...currentProps.current,
         ...configUpdate,
       }
     }
-    render(currentProps)
+    render(currentProps.current)
   })
 
   return {
