@@ -1,3 +1,12 @@
+## [1.3.3](https://github.com/hemengke1997/ahooks-x/compare/v1.3.2...v1.3.3) (2024-10-24)
+
+
+### Bug Fixes
+
+* use-global-style dts ([c946e41](https://github.com/hemengke1997/ahooks-x/commit/c946e41e1b7c3d150d1d81af448f31ce51c00779))
+
+
+
 ## [1.3.2](https://github.com/hemengke1997/ahooks-x/compare/v1.3.1...v1.3.2) (2024-10-21)
 
 
