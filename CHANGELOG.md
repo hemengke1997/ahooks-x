@@ -1,3 +1,12 @@
+## [1.3.4](https://github.com/hemengke1997/ahooks-x/compare/v1.3.3...v1.3.4) (2024-10-29)
+
+
+### Bug Fixes
+
+* use-global-styles ssr support ([b7ec540](https://github.com/hemengke1997/ahooks-x/commit/b7ec54048faa0f74d4a3fc39739e4cce5512d86e))
+
+
+
 ## [1.3.3](https://github.com/hemengke1997/ahooks-x/compare/v1.3.2...v1.3.3) (2024-10-24)
 
 
