@@ -36,7 +36,7 @@
   "scripts": {
     "dev": "tsup --watch",
     "build": "tsup",
-    "commitlint": "commitlint --edit",
+    "commitlint": "commitlint -e",
     "prepare": "simple-git-hooks",
     "lint": "tsc --noEmit && eslint . --fix",
     "up": "taze -I -w",
@@ -59,8 +59,7 @@
     }
   },
   "dependencies": {
-    "type-fest": "^4.26.1",
-    "use-global-style": "^1.0.1"
+    "type-fest": "^4.26.1"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.5.0",
