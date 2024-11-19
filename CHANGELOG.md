@@ -1,3 +1,12 @@
+## [1.3.5](https://github.com/hemengke1997/ahooks-x/compare/v1.3.4...v1.3.5) (2024-11-19)
+
+
+### Features
+
+* **useImperative:** pass random key ([c269933](https://github.com/hemengke1997/ahooks-x/commit/c2699330af2eeb5d216ffc5eb0a0d478372af234))
+
+
+
 ## [1.3.4](https://github.com/hemengke1997/ahooks-x/compare/v1.3.3...v1.3.4) (2024-10-29)
 
 
