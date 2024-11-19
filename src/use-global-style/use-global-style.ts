@@ -1,13 +1,11 @@
-import { type CSSProperties, useEffect, useImperativeHandle, useLayoutEffect, useRef } from 'react'
+import { type CSSProperties, useImperativeHandle, useRef } from 'react'
+import { useIsomorphicLayoutEffect } from 'ahooks'
 import type { UseGlobalStyleOptions } from './types'
-import { isBrowser } from '../utils/is'
 import { defaultOptions } from './constants'
 import { compareStyles } from './utils/compare-styles'
 import { stylesToCSSText } from './utils/styles-to-css-text'
 
 let styleNode: HTMLStyleElement | null = null
-
-const useIsomorphicLayoutEffect = isBrowser() ? useLayoutEffect : useEffect
 
 export const useGlobalStyle = (
   selector: string | string[],

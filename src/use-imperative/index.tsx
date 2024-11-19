@@ -51,6 +51,7 @@ function useImperative<T extends Record<string, any> = Record<string, any>>(
     timeoutId = setTimeout(() => {
       const element = createElement(FC, {
         ...props,
+        __key__: Math.random().toString(36),
       } as T)
 
       reactRender(<Fragment>{_render ? _render(element) : element}</Fragment>, container.current)
