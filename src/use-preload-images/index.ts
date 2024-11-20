@@ -72,13 +72,21 @@ export function usePreloadImages(imagesToLoad: ImagesToLoad) {
         }
       }
     }
-    imagesToLoad.forEach((src) => {
-      const controller = new AbortController()
-      abortControllers.push(controller)
-      loadImage(src, controller)
+
+    const idleCallback = window.requestIdleCallback || window.setTimeout
+
+    const idle = idleCallback(() => {
+      imagesToLoad.forEach((src) => {
+        const controller = new AbortController()
+        abortControllers.push(controller)
+        loadImage(src, controller)
+      })
     })
+
     return () => {
       isMounted = false
+      const cancel = window.cancelIdleCallback || window.clearTimeout
+      cancel(idle)
       abortControllers.forEach((controller) => controller.abort())
       setImages([])
     }
