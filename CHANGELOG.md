@@ -1,3 +1,12 @@
+# [1.4.0](https://github.com/hemengke1997/ahooks-x/compare/v1.3.5...v1.4.0) (2024-11-20)
+
+
+### Features
+
+* introduce use-preload-images ([6ccd1bd](https://github.com/hemengke1997/ahooks-x/commit/6ccd1bd4b5bf9b4c1116ca515230d042a4336e27))
+
+
+
 ## [1.3.5](https://github.com/hemengke1997/ahooks-x/compare/v1.3.4...v1.3.5) (2024-11-19)
 
 
