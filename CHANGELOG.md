@@ -1,3 +1,12 @@
+## [1.4.1](https://github.com/hemengke1997/ahooks-x/compare/v1.4.0...v1.4.1) (2024-11-20)
+
+
+### Bug Fixes
+
+* **use-preload-images:** idle request images ([d92d9f8](https://github.com/hemengke1997/ahooks-x/commit/d92d9f8d4d54c02e33377906d0ed73280d9cbb44))
+
+
+
 # [1.4.0](https://github.com/hemengke1997/ahooks-x/compare/v1.3.5...v1.4.0) (2024-11-20)
 
 
