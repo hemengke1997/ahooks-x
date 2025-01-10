@@ -16,6 +16,7 @@ npm i ahooks ahooks-x
 - [useEffectOnce](./src/use-effect-once/README.md)
 - [useGlobalStyle](./src/use-global-style/README.md)
 - [useImperative](./src/use-imperative/README.md)
+- [useImperativeAntdModal](./src/use-imperative-antd-modal/README.md)
 - [useLocalStorageSetState](./src/use-local-storage-set-state/README.md)
 - [useLockScroll](./src/use-lock-scroll/README.md)
 - [useSessionStorageSetState](./src/use-session-storage-set-state/README.md)
