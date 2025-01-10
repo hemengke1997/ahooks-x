@@ -1,3 +1,12 @@
+# [1.5.0](https://github.com/hemengke1997/ahooks-x/compare/v1.4.1...v1.5.0) (2025-01-10)
+
+
+### Features
+
+* add use-imperative-antd-modal hook ([335848f](https://github.com/hemengke1997/ahooks-x/commit/335848fd7ed3f7424825455768fa1e2765ad5c52))
+
+
+
 ## [1.4.1](https://github.com/hemengke1997/ahooks-x/compare/v1.4.0...v1.4.1) (2024-11-20)
 
 
