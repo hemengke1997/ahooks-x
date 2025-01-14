@@ -1,3 +1,12 @@
+## [1.5.1](https://github.com/hemengke1997/ahooks-x/compare/v1.5.0...v1.5.1) (2025-01-14)
+
+
+### Bug Fixes
+
+* split use-imperative-antd-modal ([f860676](https://github.com/hemengke1997/ahooks-x/commit/f860676492094b28bb42b48d129291510e037463))
+
+
+
 # [1.5.0](https://github.com/hemengke1997/ahooks-x/compare/v1.4.1...v1.5.0) (2025-01-10)
 
 
