@@ -31,6 +31,11 @@
       "types": "./dist/es/use-url-state/index.d.ts",
       "require": "./dist/lib/use-url-state/index.cjs",
       "import": "./dist/es/use-url-state/index.js"
+    },
+    "./use-imperative-antd-modal": {
+      "types": "./dist/es/use-imperative-antd-modal/index.d.ts",
+      "require": "./dist/lib/use-imperative-antd-modal/index.cjs",
+      "import": "./dist/es/use-imperative-antd-modal/index.js"
     }
   },
   "sideEffects": false,

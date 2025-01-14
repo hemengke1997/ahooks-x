@@ -1,1 +1,1 @@
-export * from './dist/es/use-url-state/index'
+export * from './dist/es/use-url-state'

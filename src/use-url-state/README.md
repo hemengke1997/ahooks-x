@@ -11,15 +11,8 @@
 npm i query-string react-router-dom
 ```
 
-```json
-{
-  "peerDependenciesMeta": {
-    "react-router-dom": {
-      "optional": true
-    },
-    "query-string": {
-      "optional": true
-    }
-  }
-}
+## 使用方法
+
+```tsx
+import { useUrlState } from 'ahooks-x/use-url-state'
 ```
