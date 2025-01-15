@@ -4,7 +4,7 @@ import { App, type ModalFuncProps } from 'antd'
 import { type HookAPI } from 'antd/es/modal/useModal'
 
 export type ImperativeModalProps = {
-  onClose: () => void
+  closeModal: () => void
 }
 
 export const imperativeModalMap: Map<string, ReturnType<HookAPI['confirm']>> = new Map()
@@ -13,7 +13,7 @@ function randomId() {
   return Math.random().toString(36).substring(2)
 }
 
-export function useImperativeAntdModal<T extends ImperativeModalProps>(props: {
+export function useImperativeAntdModal<T extends object>(props: {
   FC: React.ComponentType<T>
   id?: string
   modalProps?: ModalFuncProps
@@ -34,7 +34,7 @@ export function useImperativeAntdModal<T extends ImperativeModalProps>(props: {
     imperativeModalMap.delete(id)
   })
 
-  const showModal = useMemoizedFn((componentProps: Omit<T, 'onClose'>, modalProps?: ModalFuncProps) => {
+  const showModal = useMemoizedFn((componentProps: T, modalProps?: ModalFuncProps) => {
     const id = idProp || randomId()
 
     const props = (initialModalProps: ModalFuncProps | undefined): ModalFuncProps => ({
@@ -46,7 +46,7 @@ export function useImperativeAntdModal<T extends ImperativeModalProps>(props: {
       },
       content: createElement(FC, {
         ...componentProps,
-        onClose: () => {
+        closeModal: () => {
           const instance = imperativeModalMap.get(id)
           instance?.destroy()
           onClose(id)
