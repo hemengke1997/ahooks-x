@@ -1,3 +1,12 @@
+## [1.5.2](https://github.com/hemengke1997/ahooks-x/compare/v1.5.1...v1.5.2) (2025-01-15)
+
+
+### Bug Fixes
+
+* type ([35c7c68](https://github.com/hemengke1997/ahooks-x/commit/35c7c689a4e078f855fb30137186f1f1b6615e94))
+
+
+
 ## [1.5.1](https://github.com/hemengke1997/ahooks-x/compare/v1.5.0...v1.5.1) (2025-01-14)
 
 
