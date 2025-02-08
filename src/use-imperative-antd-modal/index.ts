@@ -34,33 +34,35 @@ export function useImperativeAntdModal<T extends object>(props: {
     imperativeModalMap.delete(id)
   })
 
-  const showModal = useMemoizedFn((componentProps: T, modalProps?: ModalFuncProps) => {
-    const id = idProp || randomId()
+  const showModal = useMemoizedFn(
+    (componentProps: Omit<T, keyof ImperativeModalProps>, modalProps?: ModalFuncProps) => {
+      const id = idProp || randomId()
 
-    const props = (initialModalProps: ModalFuncProps | undefined): ModalFuncProps => ({
-      ...initialModalProps,
-      ...modalProps,
-      afterClose() {
-        onClose(id)
-        modalProps?.afterClose?.()
-      },
-      content: createElement(FC, {
-        ...componentProps,
-        closeModal: () => {
-          const instance = imperativeModalMap.get(id)
-          instance?.destroy()
+      const props = (initialModalProps: ModalFuncProps | undefined): ModalFuncProps => ({
+        ...initialModalProps,
+        ...modalProps,
+        afterClose() {
           onClose(id)
+          modalProps?.afterClose?.()
         },
-      } as T),
-    })
+        content: createElement(FC, {
+          ...componentProps,
+          closeModal: () => {
+            const instance = imperativeModalMap.get(id)
+            instance?.destroy()
+            onClose(id)
+          },
+        } as T),
+      })
 
-    const instance = modal.confirm(props(initialModalProps))
+      const instance = modal.confirm(props(initialModalProps))
 
-    setCurrent({ id, props })
-    imperativeModalMap.set(id, instance)
+      setCurrent({ id, props })
+      imperativeModalMap.set(id, instance)
 
-    return instance
-  })
+      return instance
+    },
+  )
 
   useUpdateEffect(() => {
     if (current.id) {
