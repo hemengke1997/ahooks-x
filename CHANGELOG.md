@@ -1,3 +1,12 @@
+## [1.5.3](https://github.com/hemengke1997/ahooks-x/compare/v1.5.2...v1.5.3) (2025-02-08)
+
+
+### Bug Fixes
+
+* dts ([30ce5d6](https://github.com/hemengke1997/ahooks-x/commit/30ce5d6e33dd83bd8fe52e5f4dd750eec30288ff))
+
+
+
 ## [1.5.2](https://github.com/hemengke1997/ahooks-x/compare/v1.5.1...v1.5.2) (2025-01-15)
 
 
