@@ -17,9 +17,17 @@ export function useImperativeAntdModal<T extends object>(props: {
   FC: React.ComponentType<T>
   id?: string
   modalProps?: ModalFuncProps
+  /**
+   * @description 是否允许打开多个modal
+   * @default false
+   */
+  multiple?: boolean
+  /**
+   * @description modal刷新依赖
+   */
   deps?: DependencyList
 }) {
-  const { FC, modalProps: initialModalProps, id: idProp, deps } = props
+  const { FC, modalProps: initialModalProps, id: idProp, multiple = false, deps } = props
   const { modal } = App.useApp()
 
   const [current, setCurrent] = useState<{
@@ -36,6 +44,10 @@ export function useImperativeAntdModal<T extends object>(props: {
 
   const showModal = useMemoizedFn(
     (componentProps: Omit<T, keyof ImperativeModalProps>, modalProps?: ModalFuncProps) => {
+      if (!multiple && imperativeModalMap.get(current.id)) {
+        return
+      }
+
       const id = idProp || randomId()
 
       const props = (initialModalProps: ModalFuncProps | undefined): ModalFuncProps => ({

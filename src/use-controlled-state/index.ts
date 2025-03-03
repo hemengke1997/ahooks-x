@@ -1,4 +1,4 @@
-import { useMemo, useRef } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 import { useMemoizedFn, usePrevious, useUpdate } from 'ahooks'
 import { isFunction } from '../utils/is'
 
@@ -8,19 +8,25 @@ function useControlledState<T>(option: {
   onChange?: (value: T, prevValue: T) => void
   beforeValue?: (value: T, prevValue: T) => T | undefined
   postValue?: (value: T | undefined, prevValue: T) => T | undefined
+  onInit?: (value: T) => void
 }): [T, (value: T | ((prevState: T) => T)) => void, T] {
-  const { defaultValue, value, onChange, beforeValue, postValue } = option
+  const { defaultValue, value, onChange, beforeValue, postValue, onInit } = option
 
   const isControlled = Object.prototype.hasOwnProperty.call(option, 'value') && typeof value !== 'undefined'
 
   const initialValue = useMemo(() => {
+    let init = value
     if (isControlled) {
-      return value
+      init = value
+    } else if (defaultValue !== undefined) {
+      init = isFunction(defaultValue) ? defaultValue() : defaultValue
     }
-    if (defaultValue !== undefined) {
-      return isFunction(defaultValue) ? defaultValue() : defaultValue
-    }
+    return init
   }, [])
+
+  useEffect(() => {
+    onInit?.(initialValue as T)
+  }, [initialValue])
 
   const stateRef = useRef(initialValue)
 
