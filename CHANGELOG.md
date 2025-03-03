@@ -1,3 +1,12 @@
+## [1.5.4](https://github.com/hemengke1997/ahooks-x/compare/v1.5.3...v1.5.4) (2025-03-03)
+
+
+### Features
+
+* **use-controlled-state/ues-imperative-antd-modal:** add options ([93c301a](https://github.com/hemengke1997/ahooks-x/commit/93c301a7482fa8f8cfc41e3f97ac36f2032f8eac))
+
+
+
 ## [1.5.3](https://github.com/hemengke1997/ahooks-x/compare/v1.5.2...v1.5.3) (2025-02-08)
 
 
