@@ -2,7 +2,7 @@
 
 import { createElement, Fragment, type FunctionComponent, type ReactElement, useRef } from 'react'
 import { useMemoizedFn } from 'ahooks'
-import { isBrowser } from '../utils/is'
+import { isBrowser } from '../utils'
 import { render as reactRender } from './render'
 
 type ConfigUpdate<T> = T | ((prev: T) => T)

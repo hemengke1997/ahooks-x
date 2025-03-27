@@ -39,6 +39,7 @@ export const useGlobalStyle = (
       const sheet = styleNode!.sheet!
 
       const rule = stylesToCSSText(selectorValue, stylesValue, importantAll, media)
+
       const index = sheet.insertRule(rule, sheet.cssRules.length)
 
       const insertedRuleObject = sheet.cssRules[index]
@@ -49,8 +50,6 @@ export const useGlobalStyle = (
         sheet.deleteRule(currentIndex)
       }
     }
-
-    return
   }, [enabled, importantAll, selectorValue, stylesValue])
 }
 

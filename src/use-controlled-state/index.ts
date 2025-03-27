@@ -1,13 +1,13 @@
 import { useEffect, useMemo, useRef } from 'react'
 import { useMemoizedFn, usePrevious, useUpdate } from 'ahooks'
-import { isFunction } from '../utils/is'
+import { isFunction } from '../utils'
 
 function useControlledState<T>(option: {
   defaultValue?: T | (() => T)
   value?: T
   onChange?: (value: T, prevValue: T) => void
   beforeValue?: (value: T, prevValue: T) => T | undefined
-  postValue?: (value: T | undefined, prevValue: T) => T | undefined
+  postValue?: (value: T, prevValue: T) => T | undefined
   onInit?: (value: T) => void
 }): [T, (value: T | ((prevState: T) => T)) => void, T] {
   const { defaultValue, value, onChange, beforeValue, postValue, onInit } = option
@@ -36,13 +36,6 @@ function useControlledState<T>(option: {
 
   const previousState = usePrevious(stateRef.current) as T
 
-  if (postValue) {
-    const post = postValue(stateRef.current, previousState)
-    if (post) {
-      stateRef.current = post
-    }
-  }
-
   const update = useUpdate()
 
   function triggerChange(newValue: T | ((prevState: T) => T)) {
@@ -57,6 +50,13 @@ function useControlledState<T>(option: {
 
     if (onChange) {
       onChange(r, stateRef.current as T)
+    }
+
+    if (postValue) {
+      const post = postValue(r, stateRef.current as T)
+      if (post) {
+        r = post
+      }
     }
 
     if (!isControlled) {

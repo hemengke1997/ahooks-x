@@ -1,6 +1,6 @@
 import { type DependencyList, type Dispatch, type SetStateAction, useState } from 'react'
 import { useMemoizedFn, useUpdateEffect } from 'ahooks'
-import { isFunction } from '../utils/is'
+import { isFunction } from '../utils'
 
 export const enum Trigger {
   track = 'track',
@@ -28,13 +28,15 @@ export function useTrackState<S>(
 ) {
   const { deps, defaultValue, onChangeBySet, onChangeByTrack } = options || {}
 
+  const execIfFn = (fn: S | (() => S) | undefined) => (isFunction(fn) ? fn() : fn)
+
   const [trackedState, setTrackState] = useState<{
     state: S
     trigger: 'track' | 'set'
   }>(() => {
-    const value = defaultValue || trackState
+    const value = execIfFn(trackState) || execIfFn(defaultValue)
     return {
-      state: isFunction(value) ? value() : value,
+      state: value!,
       trigger: 'track',
     }
   })

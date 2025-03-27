@@ -1,7 +1,7 @@
 import { useState } from 'react'
 // Taken from @alibaba/hooks (MIT)
 import { useMemoizedFn, useUpdateEffect } from 'ahooks'
-import { isFunction, isUndefined } from '../utils/is'
+import { isFunction, isUndefined } from '../utils'
 
 export type SetState<S> = S | ((prevState?: S) => S)
 

@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { useMemoizedFn } from 'ahooks'
-import { isBrowser } from '../utils/is'
+import { isBrowser } from '../utils'
 import { useTouch } from './use-touch'
 
 let totalLockCount = 0

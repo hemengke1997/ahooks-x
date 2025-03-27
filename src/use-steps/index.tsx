@@ -7,16 +7,14 @@ import { useMemoizedFn } from 'ahooks'
  * @param defaultValue 默认步骤
  * @param onChange 步骤变化时的回调
  */
-export default function useStep<T extends string>(
+export function useSteps<T>(
   steps: T[],
-  {
-    defaultValue,
-    onChange,
-  }: {
+  options?: {
     defaultValue?: T
     onChange?: (step: T) => void
   },
 ) {
+  const { defaultValue, onChange } = options || {}
   const [currentStep, setCurrentStep] = useState(defaultValue || steps[0])
 
   const next = useMemoizedFn(() => {

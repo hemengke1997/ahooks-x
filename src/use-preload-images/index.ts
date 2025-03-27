@@ -23,7 +23,7 @@ async function abortPromise<T = any>(
 }
 
 export function usePreloadImages(imagesToLoad: ImagesToLoad) {
-  const [images, setImages] = useState<ImageLoad[]>(imagesToLoad.map(() => ({ loaded: false, error: null, src: '' })))
+  const [images, setImages] = useState<ImageLoad[]>([])
 
   const updateImages = (res: ImageLoad) => {
     setImages((prevImages) => {
@@ -48,20 +48,21 @@ export function usePreloadImages(imagesToLoad: ImagesToLoad) {
         if (!imageSrc) {
           throw new Error('Image source is empty')
         }
+
         const img = new Image()
-        img.src = imageSrc
+
         img.fetchPriority = 'low'
         img.onload = () => {
           if (isMounted) {
             updateImages({ loaded: true, error: null, src: imageSrc })
           }
         }
-
         img.onerror = () => {
           if (isMounted) {
             updateImages({ loaded: false, error: new Error(`Failed to load image: ${imageSrc}`), src: imageSrc })
           }
         }
+        img.src = imageSrc
 
         controller.signal.addEventListener('abort', () => {
           img.src = ''
@@ -88,9 +89,8 @@ export function usePreloadImages(imagesToLoad: ImagesToLoad) {
       const cancel = window.cancelIdleCallback || window.clearTimeout
       cancel(idle)
       abortControllers.forEach((controller) => controller.abort())
-      setImages([])
     }
   }, [])
 
-  return [images] as const
+  return images
 }

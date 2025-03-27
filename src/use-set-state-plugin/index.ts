@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useLatest, useMemoizedFn } from 'ahooks'
 import { createUseStorageState, type Options as StorageOptions } from '../create-use-storage-state'
-import { isBrowser, isFunction } from '../utils/is'
+import { isBrowser, isFunction } from '../utils'
 
 export type StateType = Record<string, any>
 
