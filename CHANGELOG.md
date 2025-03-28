@@ -1,3 +1,12 @@
+## [2.0.1](https://github.com/hemengke1997/ahooks-x/compare/v2.0.0...v2.0.1) (2025-03-28)
+
+
+### Features
+
+* 命令式弹窗支持懒加载组件 ([e7395c8](https://github.com/hemengke1997/ahooks-x/commit/e7395c831cc9bde618d70ab62ba40c6db6668d3d))
+
+
+
 # [2.0.0](https://github.com/hemengke1997/ahooks-x/compare/v1.5.4...v2.0.0) (2025-03-27)
 
 
