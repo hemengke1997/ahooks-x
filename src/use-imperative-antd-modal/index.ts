@@ -1,7 +1,8 @@
-import { createElement, type DependencyList, useState } from 'react'
+import { type ComponentType, createElement, type DependencyList, startTransition, useState } from 'react'
 import { useMemoizedFn, useUpdateEffect } from 'ahooks'
 import { App, type ModalFuncProps } from 'antd'
 import { type HookAPI } from 'antd/es/modal/useModal'
+import { isLazyComponent } from '@/utils'
 
 export type ImperativeModalProps = {
   closeModal: () => void
@@ -14,7 +15,7 @@ function randomId() {
 }
 
 export function useImperativeAntdModal<T extends object>(props: {
-  FC: React.ComponentType<T>
+  FC: ComponentType<T>
   id?: string
   modalProps?: ModalFuncProps
   /**
@@ -76,6 +77,14 @@ export function useImperativeAntdModal<T extends object>(props: {
     },
   )
 
+  const showModalWithLazy: typeof showModal = useMemoizedFn((...args) => {
+    let result
+    startTransition(() => {
+      result = showModal(...args)
+    })
+    return result
+  })
+
   useUpdateEffect(() => {
     if (current.id) {
       const instance = imperativeModalMap.get(current.id)
@@ -84,7 +93,7 @@ export function useImperativeAntdModal<T extends object>(props: {
   }, [...(deps || []), initialModalProps])
 
   return {
-    showModal,
+    showModal: isLazyComponent(FC) ? showModalWithLazy : showModal,
     id: current.id,
     imperativeModalMap,
   }

@@ -84,6 +84,7 @@
     "@minko-fe/prettier-config": "^2.2.5",
     "@minko-fe/tsconfig": "^2.1.1",
     "@testing-library/react": "^16.2.0",
+    "@testing-library/user-event": "^14.6.1",
     "@types/react": "^18.3.20",
     "@types/react-dom": "^18.3.5",
     "@vitest/ui": "^3.0.9",

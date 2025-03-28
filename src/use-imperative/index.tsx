@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 
-import { createElement, Fragment, type FunctionComponent, type ReactElement, useRef } from 'react'
+import { type ComponentType, createElement, Fragment, type ReactElement, useRef } from 'react'
 import { useMemoizedFn } from 'ahooks'
 import { isBrowser } from '../utils'
 import { render as reactRender } from './render'
@@ -26,10 +26,7 @@ type Config<T> = {
  * 如 antd 的 Modal
  * 如 vant 的 Dialog
  */
-function useImperative<T extends Record<string, any> = Record<string, any>>(
-  FC: FunctionComponent<T>,
-  config?: Config<T>,
-) {
+function useImperative<T extends Record<string, any> = Record<string, any>>(FC: ComponentType<T>, config?: Config<T>) {
   if (!isBrowser()) {
     return {
       close: () => {},

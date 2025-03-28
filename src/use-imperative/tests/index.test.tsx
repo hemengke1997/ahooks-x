@@ -1,4 +1,5 @@
 import { act, renderHook, screen, waitFor } from '@testing-library/react'
+import { lazy } from 'react'
 import { Modal, type ModalProps } from 'antd'
 import { describe, expect, it } from 'vitest'
 import { useImperative } from '..'
@@ -35,5 +36,16 @@ describe('useImperative', () => {
     await waitFor(() => {
       expect(screen.queryByText('Hello, world')).toBeNull()
     })
+  })
+
+  it('should work with lazy component', async () => {
+    const { result } = renderHook(() => useImperative(lazy(() => Promise.resolve({ default: MyModal }))))
+    act(() => {
+      result.current.open({ text: 'Hello, world' })
+    })
+
+    const lazyContent = await screen.findByText('Hello, world')
+
+    expect(lazyContent).toBeTruthy()
   })
 })

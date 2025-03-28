@@ -1,12 +1,13 @@
 import { act, cleanup, render } from '@testing-library/react'
+import { lazy } from 'react'
 import { App } from 'antd'
-import { afterEach, describe, expect, it } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import { imperativeModalMap, useImperativeAntdModal } from '..'
 
 const { getComputedStyle } = window
 window.getComputedStyle = (elt) => getComputedStyle(elt)
 
-const TestComponent = () => {
+const TestComponent = (props: { multiple?: boolean }) => {
   const { showModal } = useImperativeAntdModal({
     FC: ({ closeModal }: { closeModal: () => void }) => (
       <div>
@@ -17,6 +18,7 @@ const TestComponent = () => {
     modalProps: {
       destroyOnClose: true,
     },
+    ...props,
   })
 
   return (
@@ -27,8 +29,11 @@ const TestComponent = () => {
 }
 
 describe('useImperativeAntdModal', () => {
+  beforeEach(() => {})
+
   afterEach(() => {
     cleanup()
+    imperativeModalMap.clear()
   })
 
   it('should render modal correctly', async () => {
@@ -74,7 +79,7 @@ describe('useImperativeAntdModal', () => {
   it('should open mutilple modals', async () => {
     const { getByText } = render(
       <App>
-        <TestComponent />
+        <TestComponent multiple={true} />
       </App>,
     )
 
@@ -87,5 +92,39 @@ describe('useImperativeAntdModal', () => {
     })
 
     expect(imperativeModalMap.size).toBe(2)
+  })
+
+  it('should work with lazy component', async () => {
+    const LazyComponent = lazy(() => import('./fixtures/Lazy'))
+
+    const TestLazyComponent = () => {
+      const { showModal } = useImperativeAntdModal({
+        FC: LazyComponent,
+        modalProps: {
+          destroyOnClose: true,
+        },
+      })
+
+      return (
+        <div>
+          <button onClick={() => showModal({})}>Open Modal</button>
+        </div>
+      )
+    }
+
+    const { getByText, findByText } = render(
+      <App>
+        <TestLazyComponent />
+      </App>,
+    )
+
+    act(() => {
+      getByText('Open Modal').click()
+    })
+
+    expect(imperativeModalMap.size).toBe(1)
+
+    const lazyContent = await findByText('lazy')
+    expect(lazyContent).toBeTruthy()
   })
 })

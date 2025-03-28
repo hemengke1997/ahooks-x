@@ -1,5 +1,6 @@
 import { cleanup, fireEvent, render } from '@testing-library/react'
 import { useState } from 'react'
+import { userEvent } from '@testing-library/user-event'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { useStrictInput } from '..'
 
@@ -32,34 +33,35 @@ describe('useStrictInput', () => {
   afterEach(() => {
     cleanup()
   })
-  it('should work', () => {
+  it('should work', async () => {
     const { getByTestId } = render(<TestComponent />)
     const input = getByTestId('input') as HTMLInputElement
-    fireEvent.change(input, { target: { value: '123' } })
+
+    await userEvent.type(input, '123')
 
     expect(input.value).toBe('123')
   })
 
-  it('should not work with string', () => {
+  it('should not work with string', async () => {
     const { getByTestId } = render(<TestComponent />)
     const input = getByTestId('input') as HTMLInputElement
 
-    fireEvent.change(input, { target: { value: 'Hello' } })
+    await userEvent.type(input, 'Hello')
 
     expect(input.value).toBe('')
   })
 
-  it('should work with string', () => {
+  it('should work with string', async () => {
     const regexp = /[a-zA-Z\D]/g
     const { getByTestId } = render(<TestComponent strict={regexp} />)
     const input = getByTestId('input') as HTMLInputElement
 
-    fireEvent.change(input, { target: { value: '123' } })
+    await userEvent.type(input, '123')
 
     expect(input.value).toBe('123')
   })
 
-  it('should handle composition input', () => {
+  it('should handle composition input', async () => {
     const handleChange = vi.fn()
     const { getByTestId } = render(<TestComponent handleChange={handleChange} strict={/[a-zA-Z\D]/g} />)
     const input = getByTestId('input') as HTMLInputElement
@@ -68,11 +70,9 @@ describe('useStrictInput', () => {
 
     expect(handleChange).not.toHaveBeenCalled()
 
-    fireEvent.change(input, { target: { value: '拼音' } })
+    await userEvent.type(input, '拼音')
 
     fireEvent.compositionEnd(input)
-
-    fireEvent.change(input, { target: { value: '拼音' } })
 
     expect(handleChange).toHaveBeenCalledWith('拼音')
   })
