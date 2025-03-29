@@ -1,3 +1,12 @@
+## [2.0.2](https://github.com/hemengke1997/ahooks-x/compare/v2.0.1...v2.0.2) (2025-03-29)
+
+
+### Features
+
+* **use-imperative-antd-modal:** reactive modal ([3eecd10](https://github.com/hemengke1997/ahooks-x/commit/3eecd1042ae32503bfeaceeab4e5884a12cf9e57))
+
+
+
 ## [2.0.1](https://github.com/hemengke1997/ahooks-x/compare/v2.0.0...v2.0.1) (2025-03-28)
 
 
