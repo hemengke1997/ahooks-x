@@ -1,13 +1,13 @@
 import { act, cleanup, render } from '@testing-library/react'
 import { lazy } from 'react'
 import { App } from 'antd'
-import { afterEach, beforeEach, describe, expect, it } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { imperativeModalMap, useImperativeAntdModal } from '..'
 
 const { getComputedStyle } = window
 window.getComputedStyle = (elt) => getComputedStyle(elt)
 
-const TestComponent = (props: { multiple?: boolean }) => {
+const TestComponent = (props: { multiple?: boolean; onChange?: () => void }) => {
   const { showModal } = useImperativeAntdModal({
     FC: ({ closeModal }: { closeModal: () => void }) => (
       <div>
@@ -126,5 +126,52 @@ describe('useImperativeAntdModal', () => {
 
     const lazyContent = await findByText('lazy')
     expect(lazyContent).toBeTruthy()
+  })
+
+  it('should imperativeModalMap reactive', async () => {
+    const { getByText, findByText } = render(
+      <App>
+        <TestComponent />
+      </App>,
+    )
+
+    act(() => {
+      getByText('Open Modal').click()
+    })
+
+    await expect(findByText('Hello, Modal!')).resolves.toBeTruthy()
+
+    expect(imperativeModalMap.size).toBe(1)
+
+    act(() => {
+      imperativeModalMap.clear()
+    })
+
+    expect(imperativeModalMap.size).toBe(0)
+    await expect(findByText('Hello, Modal!')).rejects.toBeTruthy()
+  })
+
+  it('should onChange work', () => {
+    const onChange = vi.fn()
+
+    const { getByText } = render(
+      <App>
+        <TestComponent onChange={onChange} />
+      </App>,
+    )
+
+    act(() => {
+      getByText('Open Modal').click()
+    })
+
+    expect(imperativeModalMap.size).toBe(1)
+    expect(onChange).toHaveBeenCalledTimes(1)
+
+    act(() => {
+      getByText('Close').click()
+    })
+
+    expect(imperativeModalMap.size).toBe(0)
+    expect(onChange).toHaveBeenCalledTimes(2)
   })
 })

@@ -2,7 +2,7 @@ import { defineConfig, type Options } from 'tsup'
 import { bundleless } from 'tsup-plugin-bundleless'
 
 const tsupConfig: Options = {
-  entry: ['src/**/*.{ts,tsx}'],
+  entry: ['src/**/*.{ts,tsx}', '!src/**/tests/**'],
   platform: 'browser',
   dts: true,
 }
@@ -23,4 +23,10 @@ const cjs: Options = {
   ...bundleless(),
 }
 
-export default defineConfig([esm, cjs])
+export default defineConfig((option) => {
+  if (option.watch) {
+    // dev mode
+    return esm
+  }
+  return [esm, cjs]
+})

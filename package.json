@@ -42,8 +42,9 @@
   },
   "sideEffects": false,
   "scripts": {
-    "dev": "tsup --watch",
-    "build": "tsup",
+    "dev": "rm -rf dist && tsup --watch",
+    "build": "rm -rf dist && tsup",
+    "unbuild": "unbuild --stub",
     "test": "vitest",
     "test:run": "vitest --run",
     "commitlint": "commitlint -e",
@@ -74,6 +75,7 @@
     }
   },
   "dependencies": {
+    "@vue/reactivity": "^3.5.13",
     "type-fest": "^4.38.0"
   },
   "devDependencies": {
@@ -90,7 +92,7 @@
     "@vitest/ui": "^3.0.9",
     "ahooks": "^3.8.4",
     "antd": "^5.24.5",
-    "bumpp": "^9.11.1",
+    "bumpp": "^10.1.0",
     "conventional-changelog-cli": "^5.0.0",
     "cross-env": "^7.0.3",
     "eslint": "^9.23.0",
@@ -101,10 +103,10 @@
     "react-dom": "18.3.1",
     "react-router-dom": "6.4.0",
     "simple-git-hooks": "^2.12.1",
-    "taze": "^19.0.2",
+    "taze": "^19.0.4",
     "tsup": "8.3.0",
     "tsup-plugin-bundleless": "^1.2.1",
-    "typescript": "^5.6.3",
+    "typescript": "^5.8.2",
     "vite-tsconfig-paths": "^5.1.4",
     "vitest": "^3.0.9"
   },
