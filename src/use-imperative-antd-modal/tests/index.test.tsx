@@ -1,14 +1,15 @@
 import { act, cleanup, render } from '@testing-library/react'
 import { lazy } from 'react'
-import { App } from 'antd'
+import { App, type ModalFuncProps } from 'antd'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { imperativeModalMap, useImperativeAntdModal } from '..'
 
 const { getComputedStyle } = window
 window.getComputedStyle = (elt) => getComputedStyle(elt)
 
-const TestComponent = (props: { multiple?: boolean; onChange?: () => void }) => {
+const TestComponent = (props: { multiple?: boolean; onChange?: () => void; modalProps?: ModalFuncProps }) => {
   const { showModal } = useImperativeAntdModal({
+    ...props,
     FC: ({ closeModal }: { closeModal: () => void }) => (
       <div>
         <p>Hello, Modal!</p>
@@ -17,8 +18,8 @@ const TestComponent = (props: { multiple?: boolean; onChange?: () => void }) => 
     ),
     modalProps: {
       destroyOnClose: true,
+      ...props.modalProps,
     },
-    ...props,
   })
 
   return (
@@ -173,5 +174,31 @@ describe('useImperativeAntdModal', () => {
 
     expect(imperativeModalMap.size).toBe(0)
     expect(onChange).toHaveBeenCalledTimes(2)
+  })
+
+  it('should afterClose work', () => {
+    const afterClose = vi.fn()
+
+    const { getByText } = render(
+      <App>
+        <TestComponent
+          modalProps={{
+            afterClose,
+          }}
+        />
+      </App>,
+    )
+
+    act(() => {
+      getByText('Open Modal').click()
+    })
+
+    expect(imperativeModalMap.size).toBe(1)
+
+    act(() => {
+      getByText('Close').click()
+    })
+
+    expect(afterClose).toHaveBeenCalledTimes(1)
   })
 })

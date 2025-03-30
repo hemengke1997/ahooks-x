@@ -87,20 +87,25 @@ export function useImperativeAntdModal<T extends object>(props: {
 
       const id = idProp || randomId()
 
-      const props = (initialModalProps: ModalFuncProps | undefined): ModalFuncProps => ({
-        ...initialModalProps,
-        ...modalProps,
-        afterClose() {
-          onClose(id)
-          modalProps?.afterClose?.()
-        },
-        content: createElement(FC, {
-          ...componentProps,
-          closeModal: () => {
+      const props = (initialModalProps: ModalFuncProps | undefined): ModalFuncProps => {
+        const mergedProps = {
+          ...initialModalProps,
+          ...modalProps,
+        }
+        return {
+          ...mergedProps,
+          afterClose() {
             onClose(id)
+            mergedProps?.afterClose?.()
           },
-        } as T),
-      })
+          content: createElement(FC, {
+            ...componentProps,
+            closeModal: () => {
+              onClose(id)
+            },
+          } as T),
+        }
+      }
 
       const instance = modal.confirm(props(initialModalProps))
 
