@@ -1,3 +1,12 @@
+## [2.0.3](https://github.com/hemengke1997/ahooks-x/compare/v2.0.2...v2.0.3) (2025-03-30)
+
+
+### Bug Fixes
+
+* **use-imperactive-antd-modal:** modal props not working ([ab3f21c](https://github.com/hemengke1997/ahooks-x/commit/ab3f21cfc06fcc4fa9d924704dd7c59fbcd7ab3b))
+
+
+
 ## [2.0.2](https://github.com/hemengke1997/ahooks-x/compare/v2.0.1...v2.0.2) (2025-03-29)
 
 
