@@ -1,13 +1,4 @@
-import { reactive, watch } from '@vue/reactivity'
-import {
-  type ComponentType,
-  createElement,
-  type DependencyList,
-  startTransition,
-  useEffect,
-  useMemo,
-  useRef,
-} from 'react'
+import { type ComponentType, createElement, type DependencyList, startTransition, useMemo, useRef } from 'react'
 import { useMemoizedFn, useUpdateEffect } from 'ahooks'
 import { App, type ModalFuncProps } from 'antd'
 import { type HookAPI } from 'antd/es/modal/useModal'
@@ -17,10 +8,10 @@ export type ImperativeModalProps = {
   closeModal: () => void
 }
 
-export const imperativeModalMap = reactive(new Map<string, ReturnType<HookAPI['confirm']>>())
+export const imperativeModalMap: Map<string, ReturnType<HookAPI['confirm']>> = new Map()
 
 function randomId() {
-  return Math.random().toString(36).substring(2)
+  return Math.random().toString(36).substring(2) + Date.now().toString(36).slice(-2)
 }
 
 export function useImperativeAntdModal<T extends object>(props: {
@@ -36,12 +27,8 @@ export function useImperativeAntdModal<T extends object>(props: {
    * @description modal刷新依赖
    */
   deps?: DependencyList
-  /**
-   * @description imprerativeModalMap 变化时的回调
-   */
-  onChange?: (map: Map<string, ReturnType<HookAPI['confirm']>>) => void
 }) {
-  const { FC, modalProps: initialModalProps, id: idProp, multiple = false, deps, onChange } = props
+  const { FC, modalProps: initialModalProps, id: idProp, multiple = false, deps } = props
   const { modal } = App.useApp()
 
   const initialModalDetails = useMemo(
@@ -59,23 +46,9 @@ export function useImperativeAntdModal<T extends object>(props: {
     instance: ReturnType<HookAPI['confirm']> | undefined
   }>(initialModalDetails)
 
-  useEffect(() => {
-    const { stop } = watch(imperativeModalMap, (value: typeof imperativeModalMap) => {
-      onChange?.(value)
-
-      if (!value.has(modalDetails.current.id)) {
-        // close modal
-        modalDetails.current.instance?.destroy()
-        // reset modalDetails
-        modalDetails.current = initialModalDetails
-      }
-    })
-    return () => {
-      stop()
-    }
-  }, [])
-
   const onClose = useMemoizedFn((id: string) => {
+    const instance = imperativeModalMap.get(id)
+    instance?.destroy()
     imperativeModalMap.delete(id)
   })
 

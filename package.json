@@ -75,7 +75,6 @@
     }
   },
   "dependencies": {
-    "@vue/reactivity": "^3.5.13",
     "type-fest": "^4.38.0"
   },
   "devDependencies": {

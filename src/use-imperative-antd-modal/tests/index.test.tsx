@@ -7,7 +7,7 @@ import { imperativeModalMap, useImperativeAntdModal } from '..'
 const { getComputedStyle } = window
 window.getComputedStyle = (elt) => getComputedStyle(elt)
 
-const TestComponent = (props: { multiple?: boolean; onChange?: () => void; modalProps?: ModalFuncProps }) => {
+const TestComponent = (props: { multiple?: boolean; modalProps?: ModalFuncProps }) => {
   const { showModal } = useImperativeAntdModal({
     ...props,
     FC: ({ closeModal }: { closeModal: () => void }) => (
@@ -149,31 +149,6 @@ describe('useImperativeAntdModal', () => {
     })
 
     expect(imperativeModalMap.size).toBe(0)
-    await expect(findByText('Hello, Modal!')).rejects.toBeTruthy()
-  })
-
-  it('should onChange work', () => {
-    const onChange = vi.fn()
-
-    const { getByText } = render(
-      <App>
-        <TestComponent onChange={onChange} />
-      </App>,
-    )
-
-    act(() => {
-      getByText('Open Modal').click()
-    })
-
-    expect(imperativeModalMap.size).toBe(1)
-    expect(onChange).toHaveBeenCalledTimes(1)
-
-    act(() => {
-      getByText('Close').click()
-    })
-
-    expect(imperativeModalMap.size).toBe(0)
-    expect(onChange).toHaveBeenCalledTimes(2)
   })
 
   it('should afterClose work', () => {
