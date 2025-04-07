@@ -1,3 +1,12 @@
+## [2.0.4](https://github.com/hemengke1997/ahooks-x/compare/v2.0.3...v2.0.4) (2025-04-07)
+
+
+### Bug Fixes
+
+* rm reactive modal ([fed4810](https://github.com/hemengke1997/ahooks-x/commit/fed4810e9690281a096ce38c02322f85e3123a99))
+
+
+
 ## [2.0.3](https://github.com/hemengke1997/ahooks-x/compare/v2.0.2...v2.0.3) (2025-03-30)
 
 
