@@ -1,5 +1,5 @@
 import { useMemo, useRef } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router'
 import { useMemoizedFn, useUpdate } from 'ahooks'
 import querystring, { type ParseOptions, type StringifyOptions } from 'query-string'
 

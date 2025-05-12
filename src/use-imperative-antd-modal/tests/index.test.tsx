@@ -1,18 +1,18 @@
 import { act, cleanup, render } from '@testing-library/react'
 import { lazy } from 'react'
-import { App, type ModalFuncProps } from 'antd'
+import { App } from 'antd'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { imperativeModalMap, useImperativeAntdModal } from '..'
+import { imperativeModalMap, type Props, useImperativeAntdModal } from '..'
 
 const { getComputedStyle } = window
 window.getComputedStyle = (elt) => getComputedStyle(elt)
 
-const TestComponent = (props: { multiple?: boolean; modalProps?: ModalFuncProps }) => {
-  const { showModal } = useImperativeAntdModal({
+const TestComponent = (props: Props) => {
+  const { showModal, updateModal } = useImperativeAntdModal({
     ...props,
-    FC: ({ closeModal }: { closeModal: () => void }) => (
+    FC: ({ closeModal, content = 'Hello, Modal!' }: { closeModal: () => void; content?: string }) => (
       <div>
-        <p>Hello, Modal!</p>
+        <p>{content}</p>
         <button onClick={closeModal}>Close</button>
       </div>
     ),
@@ -25,6 +25,18 @@ const TestComponent = (props: { multiple?: boolean; modalProps?: ModalFuncProps 
   return (
     <div>
       <button onClick={() => showModal({})}>Open Modal</button>
+      <button
+        onClick={() =>
+          updateModal(
+            {},
+            {
+              content: 'Modal Updated',
+            },
+          )
+        }
+      >
+        Update Modal
+      </button>
     </div>
   )
 }
@@ -75,24 +87,6 @@ describe('useImperativeAntdModal', () => {
     })
 
     expect(imperativeModalMap.size).toBe(1)
-  })
-
-  it('should open mutilple modals', async () => {
-    const { getByText } = render(
-      <App>
-        <TestComponent multiple={true} />
-      </App>,
-    )
-
-    act(() => {
-      getByText('Open Modal').click()
-    })
-
-    act(() => {
-      getByText('Open Modal').click()
-    })
-
-    expect(imperativeModalMap.size).toBe(2)
   })
 
   it('should work with lazy component', async () => {
@@ -175,5 +169,27 @@ describe('useImperativeAntdModal', () => {
     })
 
     expect(afterClose).toHaveBeenCalledTimes(1)
+  })
+
+  it('should update inner component props work', async () => {
+    const { getByText, findByText } = render(
+      <App>
+        <TestComponent />
+      </App>,
+    )
+
+    act(() => {
+      getByText('Open Modal').click()
+    })
+
+    await expect(findByText('Hello, Modal!')).resolves.toBeTruthy()
+
+    expect(imperativeModalMap.size).toBe(1)
+
+    act(() => {
+      getByText('Update Modal').click()
+    })
+
+    await expect(findByText('Modal Updated')).resolves.toBeTruthy()
   })
 })

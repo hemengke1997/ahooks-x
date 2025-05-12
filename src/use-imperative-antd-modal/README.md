@@ -28,17 +28,21 @@ function Component(props: {
 }
 
 function App() {
-  const { showModal } = useImperativeAntdModal({
+  const { showModal, updateModal } = useImperativeAntdModal({
     FC: Component,
   })
 
-  return <button onClick={() => {
-    showModal({
-      title: '标题',
-      content: '内容'
-    }, {
-      width: 300
-    })
-  }}>打开modal</button>
+  return (
+    <div>
+      <button onClick={() => {
+        showModal({
+          title: '标题',
+          content: '内容'
+        }, {
+          width: 300
+        })
+      }}>打开modal</button>
+   </div>
+  )
 }
 ```

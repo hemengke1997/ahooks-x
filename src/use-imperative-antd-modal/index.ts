@@ -1,5 +1,5 @@
 import { type ComponentType, createElement, type DependencyList, startTransition, useMemo, useRef } from 'react'
-import { useMemoizedFn, useUpdateEffect } from 'ahooks'
+import { useDeepCompareEffect, useMemoizedFn } from 'ahooks'
 import { App, type ModalFuncProps } from 'antd'
 import { type HookAPI } from 'antd/es/modal/useModal'
 import { isLazyComponent } from '@/utils'
@@ -14,36 +14,43 @@ function randomId() {
   return Math.random().toString(36).substring(2) + Date.now().toString(36).slice(-2)
 }
 
-export function useImperativeAntdModal<T extends object>(props: {
-  FC: ComponentType<T>
+export type Props = {
   id?: string
   modalProps?: ModalFuncProps
-  /**
-   * @description 是否允许打开多个modal
-   * @default false
-   */
-  multiple?: boolean
   /**
    * @description modal刷新依赖
    */
   deps?: DependencyList
-}) {
-  const { FC, modalProps: initialModalProps, id: idProp, multiple = false, deps } = props
+}
+
+export function useImperativeAntdModal<T extends object>(
+  props: Props & {
+    FC: ComponentType<T>
+  },
+) {
+  const { FC, modalProps: initialModalProps, id: idProp, deps } = props
   const { modal } = App.useApp()
 
   const initialModalDetails = useMemo(
     () => ({
       id: idProp || '',
-      props: undefined,
+      genProps: () => ({}) as any,
       instance: undefined,
+      modalProps: undefined,
+      componentProps: undefined,
     }),
     [idProp],
   )
 
   const modalDetails = useRef<{
     id: string
-    props: ((modalProps: ModalFuncProps | undefined) => ModalFuncProps) | undefined
+    genProps: (
+      modalProps: ModalFuncProps | undefined,
+      componentProps: Omit<T, keyof ImperativeModalProps> | undefined,
+    ) => ModalFuncProps
     instance: ReturnType<HookAPI['confirm']> | undefined
+    modalProps: ModalFuncProps | undefined
+    componentProps: Omit<T, keyof ImperativeModalProps> | undefined
   }>(initialModalDetails)
 
   const onClose = useMemoizedFn((id: string) => {
@@ -54,25 +61,39 @@ export function useImperativeAntdModal<T extends object>(props: {
 
   const showModal = useMemoizedFn(
     (componentProps: Omit<T, keyof ImperativeModalProps>, modalProps?: ModalFuncProps) => {
-      if (!multiple && imperativeModalMap.get(modalDetails.current.id)) {
+      if (imperativeModalMap.get(modalDetails.current.id)) {
         return
       }
 
       const id = idProp || randomId()
 
-      const props = (initialModalProps: ModalFuncProps | undefined): ModalFuncProps => {
-        const mergedProps = {
-          ...initialModalProps,
-          ...modalProps,
+      const genProps = (
+        modalProps: ModalFuncProps | undefined,
+        componentProps: Omit<T, keyof ImperativeModalProps> | undefined,
+      ): ModalFuncProps => {
+        modalDetails.current = {
+          ...modalDetails.current,
+          modalProps: {
+            ...initialModalProps,
+            ...modalDetails.current.modalProps,
+            ...modalProps,
+          },
+          componentProps: {
+            ...(modalDetails.current.componentProps as Omit<T, keyof ImperativeModalProps>),
+            ...componentProps,
+          },
         }
+
         return {
-          ...mergedProps,
+          ...modalDetails.current.modalProps,
           afterClose() {
             onClose(id)
-            mergedProps?.afterClose?.()
+            modalDetails.current.modalProps?.afterClose?.()
+
+            modalDetails.current = initialModalDetails
           },
           content: createElement(FC, {
-            ...componentProps,
+            ...modalDetails.current.componentProps,
             closeModal: () => {
               onClose(id)
             },
@@ -80,16 +101,37 @@ export function useImperativeAntdModal<T extends object>(props: {
         }
       }
 
-      const instance = modal.confirm(props(initialModalProps))
+      const instance = modal.confirm(genProps(modalProps, componentProps))
 
       modalDetails.current = {
+        ...modalDetails.current,
         id,
-        props,
+        genProps,
         instance,
       }
+
       imperativeModalMap.set(id, instance)
 
-      return instance
+      return {
+        destroy: instance.destroy,
+      }
+    },
+  )
+
+  const updateModal = useMemoizedFn(
+    (modalProps?: ModalFuncProps | undefined, componentProps?: Omit<T, keyof ImperativeModalProps>) => {
+      if (modalDetails.current.id) {
+        const instance = imperativeModalMap.get(modalDetails.current.id)
+        if (!instance) {
+          return
+        }
+
+        instance.update(modalDetails.current.genProps(modalProps, componentProps) || {})
+
+        return {
+          destroy: instance.destroy,
+        }
+      }
     },
   )
 
@@ -101,15 +143,22 @@ export function useImperativeAntdModal<T extends object>(props: {
     return result
   })
 
-  useUpdateEffect(() => {
+  const mounted = useRef(false)
+  useDeepCompareEffect(() => {
+    if (!mounted.current) {
+      mounted.current = true
+      return
+    }
+
     if (modalDetails.current.id) {
       const instance = imperativeModalMap.get(modalDetails.current.id)
-      instance?.update(modalDetails.current.props?.(initialModalProps) || {})
+      instance?.update(modalDetails.current.genProps(initialModalProps, undefined) || {})
     }
   }, [...(deps || []), initialModalProps])
 
   return {
     showModal: isLazyComponent(FC) ? showModalWithLazy : showModal,
+    updateModal,
     id: modalDetails.current.id,
     imperativeModalMap,
   }

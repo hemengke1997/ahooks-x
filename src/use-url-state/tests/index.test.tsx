@@ -1,5 +1,5 @@
 import { act, render } from '@testing-library/react'
-import { MemoryRouter, type MemoryRouterProps, useLocation } from 'react-router-dom'
+import { MemoryRouter, type MemoryRouterProps, useLocation } from 'react-router'
 import { describe, expect, it } from 'vitest'
 import { type Options, useUrlState } from '..'
 
