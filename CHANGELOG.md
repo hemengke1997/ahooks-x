@@ -1,3 +1,12 @@
+# [2.1.0](https://github.com/hemengke1997/ahooks-x/compare/v2.0.5...v2.1.0) (2025-05-28)
+
+
+### Features
+
+* **preload-images:** 支持加载优先级 ([aa68304](https://github.com/hemengke1997/ahooks-x/commit/aa68304ee0d76a1c8848a034ef110ac498a06b07))
+
+
+
 ## [2.0.5](https://github.com/hemengke1997/ahooks-x/compare/v2.0.4...v2.0.5) (2025-05-12)
 
 
