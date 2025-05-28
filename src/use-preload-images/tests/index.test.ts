@@ -91,4 +91,18 @@ describe('usePreloadImages', () => {
     expect(mockSrcFunction1).toHaveBeenCalledTimes(1)
     expect(mockSrcFunction2).toHaveBeenCalledTimes(1)
   })
+
+  it('should load images immediately when priority is high', async () => {
+    const imagesToLoad = ['success-image-1/10', 'success-image-2/10']
+    const { result } = renderHook(() => usePreloadImages(imagesToLoad, { priority: 'high' }))
+
+    await act(async () => {
+      vi.advanceTimersByTime(10)
+    })
+
+    expect(result.current).toEqual([
+      { loaded: true, error: null, src: 'success-image-1/10' },
+      { loaded: true, error: null, src: 'success-image-2/10' },
+    ])
+  })
 })

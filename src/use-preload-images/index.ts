@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useIsomorphicLayoutEffect } from 'ahooks'
+import { useDeepCompareLayoutEffect } from 'ahooks'
 import pTimeout from 'p-timeout'
 
 type ImagesToLoad = (string | (() => Promise<string>))[]
@@ -22,7 +22,14 @@ async function abortPromise<T = any>(
   return res
 }
 
-export function usePreloadImages(imagesToLoad: ImagesToLoad) {
+export function usePreloadImages(
+  imagesToLoad: ImagesToLoad,
+  options?: {
+    priority?: 'low' | 'high'
+  },
+) {
+  const { priority = 'low' } = options || {}
+
   const [images, setImages] = useState<ImageLoad[]>([])
 
   const updateImages = (res: ImageLoad) => {
@@ -33,7 +40,14 @@ export function usePreloadImages(imagesToLoad: ImagesToLoad) {
     })
   }
 
-  useIsomorphicLayoutEffect(() => {
+  const idleCallback = (priority: 'high' | 'low') => {
+    if (priority === 'high') {
+      return (callback: () => void) => callback()
+    }
+    return window.requestIdleCallback || window.setTimeout
+  }
+
+  useDeepCompareLayoutEffect(() => {
     let isMounted = true
     const abortControllers: AbortController[] = []
 
@@ -66,6 +80,8 @@ export function usePreloadImages(imagesToLoad: ImagesToLoad) {
 
         controller.signal.addEventListener('abort', () => {
           img.src = ''
+          img.onload = null
+          img.onerror = null
         })
       } catch (err) {
         if (isMounted) {
@@ -74,9 +90,7 @@ export function usePreloadImages(imagesToLoad: ImagesToLoad) {
       }
     }
 
-    const idleCallback = window.requestIdleCallback || window.setTimeout
-
-    const idle = idleCallback(() => {
+    const idle = idleCallback(priority)(() => {
       imagesToLoad.forEach((src) => {
         const controller = new AbortController()
         abortControllers.push(controller)
@@ -87,10 +101,10 @@ export function usePreloadImages(imagesToLoad: ImagesToLoad) {
     return () => {
       isMounted = false
       const cancel = window.cancelIdleCallback || window.clearTimeout
-      cancel(idle)
+      idle && cancel(idle)
       abortControllers.forEach((controller) => controller.abort())
     }
-  }, [])
+  }, [imagesToLoad])
 
   return images
 }
