@@ -119,7 +119,7 @@ export function useImperativeAntdModal<T extends object>(
   )
 
   const updateModal = useMemoizedFn(
-    (modalProps?: ModalFuncProps | undefined, componentProps?: Omit<T, keyof ImperativeModalProps>) => {
+    (componentProps?: Omit<T, keyof ImperativeModalProps>, modalProps?: ModalFuncProps | undefined) => {
       if (modalDetails.current.id) {
         const instance = imperativeModalMap.get(modalDetails.current.id)
         if (!instance) {

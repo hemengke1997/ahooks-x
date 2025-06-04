@@ -27,12 +27,9 @@ const TestComponent = (props: Props) => {
       <button onClick={() => showModal({})}>Open Modal</button>
       <button
         onClick={() =>
-          updateModal(
-            {},
-            {
-              content: 'Modal Updated',
-            },
-          )
+          updateModal({
+            content: 'Modal Updated',
+          })
         }
       >
         Update Modal
